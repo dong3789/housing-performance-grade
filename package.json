@@ -1,0 +1,23 @@
+{
+  "name": "housing-performance-grade",
+  "version": "1.0.0",
+  "description": "공공주택 주택성능등급 조회 서비스 (웹 + MCP)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "mcp": "node src/mcp.js",
+    "sync": "node src/sync.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "axios": "^1.13.6",
+    "better-sqlite3": "^12.6.2",
+    "cheerio": "^1.2.0",
+    "express": "^5.2.1",
+    "pdf-parse": "^1.1.1"
+  }
+}
