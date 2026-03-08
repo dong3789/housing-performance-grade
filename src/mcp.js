@@ -18,7 +18,7 @@ server.tool(
     region: z.string().optional().describe('지역 필터 (예: 서울, 경기)'),
     type: z.enum(['all', 'sale', 'rent']).optional().describe('유형: all(전체), sale(분양), rent(임대)'),
     page: z.number().optional().describe('페이지 번호 (기본 1)'),
-    sort: z.enum(['date', 'noise']).optional().describe('정렬: date(최신순), noise(소음등급순)'),
+    sort: z.enum(['date', 'noise']).optional().describe('정렬: date(최신순), noise(소음점수순)'),
   },
   async ({ query, region, type, page, sort }) => {
     const { rows, total } = getAnnouncementsWithGrades({
@@ -57,7 +57,7 @@ server.tool(
 // 성능등급 상세 조회
 server.tool(
   'get_performance_grade',
-  '특정 공고의 주택성능등급(소음, 구조, 환경, 생활환경, 화재소방)을 조회합니다.',
+  '특정 공고의 주택성능등급(소음, 구조, 환경, 생활환경, 화재소방)을 조회합니다. ★ 개수가 점수이며 4점이 최고, 1점이 최저입니다.',
   {
     pblancId: z.string().describe('공고 ID (search_announcements 결과의 pblancId)'),
   },
@@ -94,7 +94,7 @@ server.tool(
 // 비교
 server.tool(
   'compare_grades',
-  '여러 공고의 주택성능등급을 비교합니다. 특히 소음 관련 등급 비교에 유용합니다.',
+  '여러 공고의 주택성능등급을 비교합니다. ★ 개수가 점수이며 높을수록 좋습니다(4점 최고, 1점 최저).',
   {
     pblancIds: z.array(z.string()).min(2).max(4).describe('비교할 공고 ID 목록 (2~4개)'),
   },

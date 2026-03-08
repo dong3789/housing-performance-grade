@@ -205,7 +205,7 @@ function renderStars(value, isNoise = false) {
   if (value === '-') return '<span class="no-data">-</span>';
   if (typeof value === 'number') {
     const low = isNoise && value <= 1;
-    return `<span class="stars ${low ? 'stars-low' : ''}">${'★'.repeat(value)}${'☆'.repeat(Math.max(0, 4 - value))}</span> <small>(${value}등급)</small>`;
+    return `<span class="stars ${low ? 'stars-low' : ''}">${'★'.repeat(value)}${'☆'.repeat(Math.max(0, 4 - value))}</span> <small>(${value}점)</small>`;
   }
   return String(value);
 }
@@ -251,10 +251,10 @@ app.get('/', async (req, res) => {
       <button class="close-btn" onclick="document.getElementById('infoModal').classList.remove('show')">&times;</button>
       <h2>주택성능등급이란?</h2>
       <p>「주택법」 제39조에 따라 1,000세대 이상 공동주택을 공급할 때, 입주자모집공고에 <strong>주택성능등급</strong>을 의무적으로 표시해야 합니다.</p>
-      <p>각 항목은 <strong>1등급(최저)~4등급(최고)</strong>으로 평가되며, 별(★) 개수로 표시됩니다.</p>
+      <p>각 항목은 <strong>1점(최저)~4점(최고)</strong>으로 평가되며, 별(★) 개수로 표시됩니다.</p>
       <div class="grade-example">
-        <span class="stars">★★★★</span> = 4등급(최고) &nbsp;&nbsp;
-        <span class="stars" style="color:#e74c3c">★☆☆☆</span> = 1등급(최저)
+        <span class="stars">★★★★</span> = 4점(최고) &nbsp;&nbsp;
+        <span class="stars" style="color:#e74c3c">★☆☆☆</span> = 1점(최저)
       </div>
 
       <h3>소음 관련 등급</h3>
@@ -310,7 +310,7 @@ app.get('/', async (req, res) => {
 
   <div class="sort-bar">
     <a href="${buildQuery({ ...baseParams, sort: 'date', page: 1 })}" class="${sort === 'date' ? 'active' : ''}">최신순</a>
-    <a href="${buildQuery({ ...baseParams, sort: 'noise', page: 1 })}" class="${sort === 'noise' ? 'active' : ''}">소음등급순</a>
+    <a href="${buildQuery({ ...baseParams, sort: 'noise', page: 1 })}" class="${sort === 'noise' ? 'active' : ''}">소음점수순</a>
   </div>
 
   ${announcements.length === 0
