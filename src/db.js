@@ -162,9 +162,21 @@ function getAnnouncementsWithGrades({ page = 1, type = 'all', perPage = 20, sear
 
 function getRegions() {
   const rows = db.prepare(`
-    SELECT DISTINCT region FROM announcements WHERE hasGrade = 1 AND region IS NOT NULL ORDER BY region ASC
+    SELECT DISTINCT region FROM announcements WHERE hasGrade = 1 AND region IS NOT NULL
   `).all();
-  return rows.map((r) => r.region);
+  const REGION_ORDER = [
+    '서울', '경기', '인천',
+    '부산', '대구', '대전', '광주', '울산', '세종',
+  ];
+  function regionPriority(name) {
+    const idx = REGION_ORDER.findIndex(prefix => name.startsWith(prefix));
+    return idx >= 0 ? idx : REGION_ORDER.length;
+  }
+  return rows.map(r => r.region).sort((a, b) => {
+    const diff = regionPriority(a) - regionPriority(b);
+    if (diff !== 0) return diff;
+    return a.localeCompare(b, 'ko');
+  });
 }
 
 function getGrade(pblancId) {

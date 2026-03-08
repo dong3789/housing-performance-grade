@@ -1,6 +1,21 @@
-# floor-noise-mcp
+<div align="center">
+
+# 주택성능등급 조회 서비스
 
 공공주택 입주자모집공고 PDF에서 **주택성능등급**(소음·구조·환경·생활환경·화재소방)을 자동 추출하여 조회·비교하는 서비스
+
+<br>
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933.svg)](https://nodejs.org/)
+
+</div>
+
+<br>
+
+---
+
+<br>
 
 ## 동작 방식
 
@@ -22,12 +37,26 @@
         └─ SQLite DB에 저장
 ```
 
+<br>
+
+---
+
+<br>
+
 ## 기술 스택
 
-- **Node.js** + Express
-- **pdf-parse** — PDF 텍스트 추출
-- **cheerio** — HTML 파싱
-- **better-sqlite3** — 데이터 저장 (파싱 결과 캐싱)
+| 항목 | 기술 |
+| :--- | :--- |
+| 런타임 | Node.js + Express |
+| PDF 파싱 | pdf-parse |
+| HTML 파싱 | cheerio |
+| 데이터 저장 | better-sqlite3 (파싱 결과 캐싱) |
+
+<br>
+
+---
+
+<br>
 
 ## 설치 및 실행
 
@@ -43,6 +72,12 @@ node src/server.js
 ```
 
 서버 시작 시 자동으로 새 공고를 수집하고, 1시간마다 업데이트합니다.
+
+<br>
+
+---
+
+<br>
 
 ## 주요 기능
 
@@ -64,6 +99,12 @@ node src/server.js
 - 2~4개 단지를 선택하여 성능등급 나란히 비교
 - 최고 등급 항목 초록색 하이라이트
 
+<br>
+
+---
+
+<br>
+
 ## 프로젝트 구조
 
 ```
@@ -77,8 +118,32 @@ src/
 data.db         — SQLite 데이터 파일 (자동 생성)
 ```
 
-## 한계
+<br>
 
-- 마이홈포털 비공식 API 사용 → 구조 변경 시 깨질 수 있음
-- PDF 포맷이 공고마다 다를 수 있어 파싱 실패 가능
-- 일부 PDF는 이미지 기반이라 텍스트 추출 불가
+---
+
+<br>
+
+## 기여하기
+
+기여를 환영합니다! 버그 리포트, 기능 제안, PR 모두 감사합니다.
+
+1. 이 저장소를 **Fork** 합니다
+2. 새 브랜치를 생성합니다 (`git checkout -b feature/my-feature`)
+3. 변경사항을 커밋합니다 (`git commit -m "feat: 새로운 기능 추가"`)
+4. 브랜치에 푸시합니다 (`git push origin feature/my-feature`)
+5. **Pull Request** 를 생성합니다
+
+<br>
+
+---
+
+<div align="center">
+
+<br>
+
+MIT License
+
+<br>
+
+</div>
