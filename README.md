@@ -33,7 +33,7 @@
     │   POST /hws/com/fms/cvplFileDownload.do
     │
     └─ PDF 텍스트 파싱 → "주택성능등급의 표시" 테이블 추출
-        ├─ ★ 개수로 등급 판별 (1~4등급)
+        ├─ ★ 개수로 점수 판별 (1점~4점, 높을수록 좋음)
         └─ SQLite DB에 저장
 ```
 
@@ -51,6 +51,7 @@
 | PDF 파싱 | pdf-parse |
 | HTML 파싱 | cheerio |
 | 데이터 저장 | better-sqlite3 (파싱 결과 캐싱) |
+| MCP | @modelcontextprotocol/sdk (AI 연동) |
 
 <br>
 
@@ -72,6 +73,49 @@ node src/server.js
 ```
 
 서버 시작 시 자동으로 새 공고를 수집하고, 1시간마다 업데이트합니다.
+
+<br>
+
+---
+
+<br>
+
+## MCP 서버 연결
+
+Claude Desktop 또는 Claude Code에서 AI가 직접 데이터를 조회할 수 있습니다.
+
+### Claude Desktop
+
+`~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "housing-grade": {
+      "command": "node",
+      "args": ["/path/to/housing-performance-grade/src/mcp.js"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add housing-grade node /path/to/housing-performance-grade/src/mcp.js
+```
+
+### 제공 도구
+
+| 도구 | 설명 |
+| :--- | :--- |
+| `search_announcements` | 공고 검색 (단지명, 지역, 유형 필터) |
+| `get_performance_grade` | 특정 공고의 성능등급 상세 조회 |
+| `compare_grades` | 2~4개 공고 성능등급 비교 |
+| `list_regions` | 조회 가능한 지역 목록 |
+| `sync_data` | 마이홈포털에서 최신 데이터 수집 |
+
+> ★ 개수가 점수이며, **4점(최고) ~ 1점(최저)** 입니다.
 
 <br>
 
@@ -112,7 +156,8 @@ src/
 ├── scraper.js  — 마이홈포털 스크래핑 + PDF 파싱 로직
 ├── db.js       — SQLite DB 스키마 및 쿼리
 ├── sync.js     — 공고 수집 + PDF 파싱 배치
-├── server.js   — Express 웹 서버
+├── server.js   — Express 웹 서버 (포트 3456)
+├── mcp.js      — MCP 서버 (stdio, AI 연동)
 └── index.js    — 단독 테스트 스크립트
 
 data.db         — SQLite 데이터 파일 (자동 생성)
